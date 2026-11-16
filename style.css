@@ -1,0 +1,158 @@
+:root {
+  --bg: #14142b;
+  --card: #1f1f3d;
+  --card-2: #2a2a50;
+  --text: #f2f2fa;
+  --muted: #9a9ac0;
+  --accent: #7c5cff;
+  --accent-2: #a08bff;
+  --ok: #3ecf8e;
+  --bad: #ff5c7a;
+  --warn: #ffb84d;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+body {
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h1 { margin: 0; font-size: 1.8rem; text-align: center; }
+h2 { margin: 0 0 12px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: baseline; }
+p { margin: 0; }
+.sub { text-align: center; color: var(--muted); margin-top: 4px; }
+.center { text-align: center; }
+.muted, .hint { color: var(--muted); font-size: 0.9rem; }
+.count { color: var(--muted); font-weight: 400; font-size: 0.95rem; }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+/* ---------- Boutons ---------- */
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.05s, opacity 0.15s;
+}
+button:active:not(:disabled) { transform: scale(0.98); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.primary { background: var(--accent); color: #fff; font-weight: 700; font-size: 1.05rem; }
+.secondary { background: var(--card-2); }
+.danger { background: transparent; color: var(--muted); font-size: 0.9rem; padding: 8px; }
+.icon { width: 44px; flex: 0 0 44px; padding: 10px 0; background: var(--card-2); }
+
+/* ---------- Saisie des joueurs ---------- */
+.players { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.players li { display: flex; gap: 8px; }
+
+input[type="text"] {
+  font: inherit;
+  color: var(--text);
+  background: var(--card-2);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  min-width: 0;
+}
+input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+.toggle { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.toggle input { width: 22px; height: 22px; accent-color: var(--accent); }
+.comp { margin-top: 10px; color: var(--accent-2); font-weight: 600; }
+.error { color: var(--bad); text-align: center; font-weight: 600; }
+
+/* ---------- Révélation des mots ---------- */
+.progress { text-align: center; color: var(--muted); font-size: 0.9rem; }
+.big-name { font-size: 2.2rem; font-weight: 800; text-align: center; margin: 24px 0; word-break: break-word; }
+.secret {
+  user-select: none;
+  -webkit-user-select: none;
+  text-align: center;
+  padding: 32px 16px;
+}
+.secret .label { color: var(--muted); }
+.secret .word { font-size: 2.6rem; font-weight: 800; margin: 12px 0; color: var(--accent-2); word-break: break-word; }
+.secret .white { font-size: 1.6rem; font-weight: 800; margin: 12px 0; color: var(--warn); }
+
+/* ---------- Partie ---------- */
+.order { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; counter-reset: ordre; }
+.order li {
+  counter-increment: ordre;
+  background: var(--card-2);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.order li::before {
+  content: counter(ordre);
+  display: inline-block;
+  width: 26px; height: 26px; line-height: 26px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.pick-list { display: flex; flex-direction: column; gap: 8px; }
+.pick {
+  background: var(--card-2);
+  text-align: left;
+  border: 2px solid transparent;
+}
+.pick.selected { border-color: var(--bad); background: #3a2038; }
+
+/* ---------- Résultats ---------- */
+.role {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+.role-civil { background: rgba(62, 207, 142, 0.2); color: var(--ok); }
+.role-undercover { background: rgba(255, 92, 122, 0.2); color: var(--bad); }
+.role-white { background: rgba(255, 184, 77, 0.2); color: var(--warn); }
+
+.winner { text-align: center; font-size: 1.5rem; font-weight: 800; padding: 24px 16px; }
+.winner.civils { color: var(--ok); }
+.winner.infiltres { color: var(--bad); }
+.winner.white { color: var(--warn); }
+
+.recap { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.recap li { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--card-2); border-radius: 12px; padding: 10px 14px; }
+.recap .dead { opacity: 0.55; text-decoration: line-through; }
+.recap small { color: var(--muted); display: block; }
+.words { display: flex; justify-content: space-around; text-align: center; gap: 8px; }
+.words strong { display: block; font-size: 1.2rem; }
